@@ -1,20 +1,23 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component, useEffect } from "react";
 import { lower, upper, number, special } from "../../assets/characterArrays";
 
 const Home = () => {
   const slider = document.getElementById("slider");
-  const upperSwitch = document.getElementById("uppercase");
 
-  //   const [possibleChars, setPossibleChars] = useState([]);
+  const [possibleChars, setPossibleChars] = useState([]);
   const [passwordLength, setPasswordLength] = useState("^ Drag the slider! ^");
-  const [includeLowercase, setIncludeLowercase] = useState();
   const [upperChecked, setUpperChecked] = useState("off");
   const [lowerChecked, setLowerChecked] = useState("off");
   const [numberChecked, setNumberChecked] = useState("off");
   const [specialChecked, setSpecialChecked] = useState("off");
 
+  const [finalPassword, setFinalPassword] = useState(
+    "Your generated password will show here!"
+  );
+
   const handleSliderChange = () => {
     setPasswordLength(slider.value);
+    generatePassword();
   };
 
   const handleUpperChange = () => {
@@ -23,6 +26,7 @@ const Home = () => {
     } else {
       setUpperChecked("on");
     }
+    generatePassword();
   };
   const handleLowerChange = () => {
     if (lowerChecked === "on") {
@@ -30,6 +34,7 @@ const Home = () => {
     } else {
       setLowerChecked("on");
     }
+    generatePassword();
   };
   const handleNumberChange = () => {
     if (numberChecked === "on") {
@@ -37,6 +42,7 @@ const Home = () => {
     } else {
       setNumberChecked("on");
     }
+    generatePassword();
   };
   const handleSpecialChange = () => {
     if (specialChecked === "on") {
@@ -44,9 +50,64 @@ const Home = () => {
     } else {
       setSpecialChecked("on");
     }
+    generatePassword();
   };
 
-  //   console.log(upperChecked);
+  function generatePassword() {
+    let newArray = [];
+    let password = [];
+
+    if (upperChecked === "on") {
+      newArray.push(upper);
+      password.push(upper[Math.floor(Math.random() * upper.length)]);
+      setFinalPassword(password);
+    }
+    if (lowerChecked === "on") {
+      newArray.push(lower);
+      password.push(lower[Math.floor(Math.random() * lower.length)]);
+      setFinalPassword(password);
+    }
+    if (numberChecked === "on") {
+      newArray.push(number);
+      password.push(number[Math.floor(Math.random() * number.length)]);
+      setFinalPassword(password);
+    }
+    if (specialChecked === "on") {
+      newArray.push(special);
+      password.push(special[Math.floor(Math.random() * special.length)]);
+      setFinalPassword(password);
+    }
+
+    console.log(newArray);
+    console.log(newArray.length);
+    console.log(password);
+  }
+
+  // useEffect(() => {
+  //     let newArray = [];
+  //     let password = [];
+
+  //     if (upperChecked === "on") {
+  //         newArray.push(upper);
+  //         password.push(upper[(Math.floor(Math.random() * upper.length))])
+  //     }
+  //     if (lowerChecked === "on") {
+  //         newArray.push(lower);
+  //         password.push(lower[(Math.floor(Math.random() * lower.length))])
+  //     }
+  //     if (numberChecked === "on") {
+  //         newArray.push(number);
+  //         password.push(number[(Math.floor(Math.random() * number.length))])
+  //     }
+  //     if (specialChecked === "on") {
+  //         newArray.push(special);
+  //         password.push(special[(Math.floor(Math.random() * special.length))])
+  //     }
+  //     console.log(newArray);
+  //     console.log(password);
+  //     // setFinalPassword(password);
+
+  // },)
 
   return (
     <div>
@@ -86,7 +147,7 @@ const Home = () => {
                 <span class="lever"></span>
                 Yes
               </label>
-              <h5>Uppercase</h5>
+              <h5>Uppercase Letters</h5>
             </div>
           </div>
 
@@ -103,7 +164,7 @@ const Home = () => {
                 <span class="lever"></span>
                 Yes
               </label>
-              <h5>Lowercase</h5>
+              <h5>Lowercase Letters</h5>
             </div>
           </div>
           <div className="col s3">
@@ -142,13 +203,11 @@ const Home = () => {
         {/* Generated password will display here */}
         <div className="row">
           <h4>HERE IS YOUR PASSWORD:</h4>
-          <h5>sddokjsf09asdASD)(J@(SF</h5>
-          <h6>{lower}</h6>
+          <h5>{finalPassword}</h5>
           {upperChecked === "on" && <h6>Uppercase Included</h6>}
           {lowerChecked === "on" && <h6>Lowercase Included</h6>}
           {numberChecked === "on" && <h6>Numbers Included</h6>}
           {specialChecked === "on" && <h6>Specials Included</h6>}
-
         </div>
       </div>
     </div>
