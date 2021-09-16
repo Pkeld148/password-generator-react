@@ -199,12 +199,12 @@ const Home = () => {
           <div></div>
         )}
 
-        <a
+        <button
           class="waves-effect waves-light btn-large"
           onClick={handleButtonClick}
         >
           GENERATE PASSWORD!
-        </a>
+        </button>
         <div className="row">
           <h5 className="finalPassword">{finalPassword}</h5>
         </div>
