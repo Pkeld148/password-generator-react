@@ -4,8 +4,9 @@ import { lower, upper, number, special } from "../../assets/characterArrays";
 const Home = () => {
   const slider = document.getElementById("slider");
 
-  const [possibleChars, setPossibleChars] = useState([]);
+  //   const [possibleChars, setPossibleChars] = useState([]);
   const [passwordLength, setPasswordLength] = useState("^ Drag the slider! ^");
+  const [sliderValue, setSliderValue] = useState("40");
   const [upperChecked, setUpperChecked] = useState("off");
   const [lowerChecked, setLowerChecked] = useState("off");
   const [numberChecked, setNumberChecked] = useState("off");
@@ -15,18 +16,13 @@ const Home = () => {
     "Your generated password will show here!"
   );
 
-  const handleSliderChange = () => {
-    setPasswordLength(slider.value);
-    generatePassword();
-  };
-
   const handleUpperChange = () => {
     if (upperChecked === "on") {
       setUpperChecked("off");
     } else {
       setUpperChecked("on");
     }
-    generatePassword();
+    // generatePassword();
   };
   const handleLowerChange = () => {
     if (lowerChecked === "on") {
@@ -34,7 +30,7 @@ const Home = () => {
     } else {
       setLowerChecked("on");
     }
-    generatePassword();
+    // generatePassword();
   };
   const handleNumberChange = () => {
     if (numberChecked === "on") {
@@ -42,7 +38,7 @@ const Home = () => {
     } else {
       setNumberChecked("on");
     }
-    generatePassword();
+    // generatePassword();
   };
   const handleSpecialChange = () => {
     if (specialChecked === "on") {
@@ -50,64 +46,61 @@ const Home = () => {
     } else {
       setSpecialChecked("on");
     }
-    generatePassword();
+    // generatePassword();
   };
 
   function generatePassword() {
     let newArray = [];
     let password = [];
+    let counter = 0;
 
     if (upperChecked === "on") {
       newArray.push(upper);
       password.push(upper[Math.floor(Math.random() * upper.length)]);
       setFinalPassword(password);
+      counter++;
     }
     if (lowerChecked === "on") {
       newArray.push(lower);
       password.push(lower[Math.floor(Math.random() * lower.length)]);
       setFinalPassword(password);
+      counter++;
     }
     if (numberChecked === "on") {
       newArray.push(number);
       password.push(number[Math.floor(Math.random() * number.length)]);
       setFinalPassword(password);
+      counter++;
     }
     if (specialChecked === "on") {
       newArray.push(special);
       password.push(special[Math.floor(Math.random() * special.length)]);
       setFinalPassword(password);
+      counter++;
     }
 
-    console.log(newArray);
-    console.log(newArray.length);
+    let allChars = [].concat(...newArray);
+
+    for (counter; counter < passwordLength; counter++) {
+      password.push(allChars[Math.floor(Math.random() * allChars.length)]);
+    }
+
+    console.log(allChars);
+    console.log(passwordLength);
+    // console.log(newArray);
+    // console.log(newArray.length);
     console.log(password);
   }
 
-  // useEffect(() => {
-  //     let newArray = [];
-  //     let password = [];
+  const handleSliderChange = () => {
+    setPasswordLength(slider.value);
+    // generatePassword();
+  };
 
-  //     if (upperChecked === "on") {
-  //         newArray.push(upper);
-  //         password.push(upper[(Math.floor(Math.random() * upper.length))])
-  //     }
-  //     if (lowerChecked === "on") {
-  //         newArray.push(lower);
-  //         password.push(lower[(Math.floor(Math.random() * lower.length))])
-  //     }
-  //     if (numberChecked === "on") {
-  //         newArray.push(number);
-  //         password.push(number[(Math.floor(Math.random() * number.length))])
-  //     }
-  //     if (specialChecked === "on") {
-  //         newArray.push(special);
-  //         password.push(special[(Math.floor(Math.random() * special.length))])
-  //     }
-  //     console.log(newArray);
-  //     console.log(password);
-  //     // setFinalPassword(password);
-
-  // },)
+  const handleButtonClick = () => {
+    console.log("You clicked the button!")
+    generatePassword();
+  }
 
   return (
     <div>
@@ -126,7 +119,6 @@ const Home = () => {
                   min="8"
                   max="128"
                   onChange={handleSliderChange}
-                  // onChange={setPasswordLength(document.getElementById("slider").value)}
                 />
               </p>
             </form>
@@ -200,14 +192,16 @@ const Home = () => {
             </div>
           </div>
         </div>
+        <a
+          class="waves-effect waves-light btn-large"
+          onClick={handleButtonClick}
+        >
+          GENERATE PASSWORD!
+        </a>
         {/* Generated password will display here */}
         <div className="row">
-          <h4>HERE IS YOUR PASSWORD:</h4>
+          {/* <h4>HERE IS YOUR PASSWORD:</h4> */}
           <h5>{finalPassword}</h5>
-          {upperChecked === "on" && <h6>Uppercase Included</h6>}
-          {lowerChecked === "on" && <h6>Lowercase Included</h6>}
-          {numberChecked === "on" && <h6>Numbers Included</h6>}
-          {specialChecked === "on" && <h6>Specials Included</h6>}
         </div>
       </div>
     </div>
