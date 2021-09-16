@@ -1,5 +1,6 @@
 import React, { useState, Component, useEffect } from "react";
 import { lower, upper, number, special } from "../../assets/characterArrays";
+import "./Home.css";
 
 const Home = () => {
   const slider = document.getElementById("slider");
@@ -12,9 +13,7 @@ const Home = () => {
   const [numberChecked, setNumberChecked] = useState("off");
   const [specialChecked, setSpecialChecked] = useState("off");
 
-  const [finalPassword, setFinalPassword] = useState(
-    "Your generated password will show here!"
-  );
+  const [finalPassword, setFinalPassword] = useState("");
 
   const handleUpperChange = () => {
     if (upperChecked === "on") {
@@ -98,9 +97,9 @@ const Home = () => {
   };
 
   const handleButtonClick = () => {
-    console.log("You clicked the button!")
+    console.log("You clicked the button!");
     generatePassword();
-  }
+  };
 
   return (
     <div>
@@ -108,24 +107,7 @@ const Home = () => {
         <strike>Javascript</strike> React Password Generator
       </h1>
       <div className="container">
-        <div className="row">
-          <div className="col s6 push-s3">
-            <h3>How long would you like your password to be?</h3>
-            <form action="#">
-              <p class="range-field">
-                <input
-                  type="range"
-                  id="slider"
-                  min="8"
-                  max="128"
-                  onChange={handleSliderChange}
-                />
-              </p>
-            </form>
-            <h4>{passwordLength}</h4>
-          </div>
-        </div>
-        <div className="row">
+        <div className="row switches">
           <div className="col s3">
             <div class="switch">
               <label>
@@ -192,16 +174,39 @@ const Home = () => {
             </div>
           </div>
         </div>
+        {upperChecked === "on" ||
+        lowerChecked === "on" ||
+        numberChecked === "on" ||
+        specialChecked === "on" ? (
+          <div className="row">
+            <div className="col s6 push-s3">
+              <h5>How long would you like your password to be?</h5>
+              <form action="#">
+                <p class="range-field">
+                  <input
+                    type="range"
+                    id="slider"
+                    min="8"
+                    max="128"
+                    onChange={handleSliderChange}
+                  />
+                </p>
+              </form>
+              <h4>{passwordLength}</h4>
+            </div>
+          </div>
+        ) : (
+          <div></div>
+        )}
+
         <a
           class="waves-effect waves-light btn-large"
           onClick={handleButtonClick}
         >
           GENERATE PASSWORD!
         </a>
-        {/* Generated password will display here */}
         <div className="row">
-          {/* <h4>HERE IS YOUR PASSWORD:</h4> */}
-          <h5>{finalPassword}</h5>
+          <h5 className="finalPassword">{finalPassword}</h5>
         </div>
       </div>
     </div>
